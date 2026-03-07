@@ -37,9 +37,37 @@ void insert(struct hash_node** hash_table, int key, char* value) {
     cursor->next = newNode;
 }
 
+void search(struct hash_node** hash_table, char* value) {
+    int index = hash(value);
+    
+    struct hash_node* cursor = hash_table[index];
+    
+    if(cursor == NULL) {
+        printf("'%s' tidak ditemukan\n", value);
+        return;
+    }
+    
+    while(cursor != NULL) {
+        if(strcmp(cursor->value, value) == 0) {
+            printf("Ditemukan! Key: %d, Value: %s\n", cursor->key, cursor->value);
+            return;
+        }
+        cursor = cursor->next;
+    }
+    
+    printf("'%s' tidak ditemukan\n", value);
+}
+
 int main() {
     struct hash_node* hash_table[ARR_SIZE] = {NULL};
+    
     insert(hash_table, 3, "hello");
+    insert(hash_table, 5, "world");
+    insert(hash_table, 7, "test");
+
+    search(hash_table, "hello");  
+    search(hash_table, "world"); 
+    search(hash_table, "nope");
 
     return 0;
 }
