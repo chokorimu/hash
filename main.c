@@ -58,16 +58,49 @@ void search(struct hash_node** hash_table, char* value) {
     printf("'%s' tidak ditemukan\n", value);
 }
 
+void delete(struct hash_node** hash_table, char* value) {
+    int index = hash(value);
+
+    struct hash_node* cursor = hash_table[index];
+    struct hash_node* prev = NULL;
+
+    while(cursor != NULL) {
+
+        if(strcmp(cursor->value, value) == 0) {
+
+            if(prev == NULL) {
+                hash_table[index] = cursor->next;
+            } 
+            else {
+                prev->next = cursor->next;
+            }
+
+            free(cursor);
+            printf("'%s' berhasil dihapus\n", value);
+            return;
+        }
+
+        prev = cursor;
+        cursor = cursor->next;
+    }
+
+    printf("'%s' tidak ditemukan\n", value);
+}
+
 int main() {
     struct hash_node* hash_table[ARR_SIZE] = {NULL};
     
     insert(hash_table, 3, "hello");
     insert(hash_table, 5, "world");
     insert(hash_table, 7, "test");
+    insert(hash_table, 9, "nope");
 
     search(hash_table, "hello");  
-    search(hash_table, "world"); 
+    search(hash_table, "world");
+    
+    delete(hash_table, "nope");
     search(hash_table, "nope");
+    delete(hash_table, "brave");
 
     return 0;
 }
