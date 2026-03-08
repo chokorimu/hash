@@ -29,7 +29,7 @@ void insert(struct hash_node** hash_table, int key, char* value) {
     }
     cursor->next = newNode;
 }
-
+// Fungsi untuk mencari nilai dalam hash table
 void search(struct hash_node** hash_table, char* value) {
     int index = hash(value);
     
